@@ -15,7 +15,7 @@ lbl.grid()
 
 # adding Entry Field
 txt = Entry(root, width=10)
-txt.grid(column =1, row =1)
+txt.grid(column =1, row=1)
 
 def clicked():
     res = "Current Speed: " + txt.get()
