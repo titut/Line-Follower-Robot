@@ -7,11 +7,12 @@ Adafruit_DCMotor *myMotor = AFMS.getMotor(4);
 
 void setup() {
   AFMS.begin();
-  
+  Serial.begin(9600);
   // Set the speed to start, from 0 (off) to 255 (max speed)
 }
 
 void loop() {
-  myMotor->setSpeed(150);
+  Serial.println("HELLO");
+  myMotor->setSpeed(50);
   myMotor->run(FORWARD);
 }
