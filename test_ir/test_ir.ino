@@ -23,7 +23,7 @@ int sensor_reading[4] = {1023, 1023, 1023, 1023};
 int wheel_speed[2] = {0, 0};
 
 //Wheel speed parameters (all variables in cm and sec)
-int normal_speed=0;
+int normal_speed=35;
 float wheel_diameter = 6;
 float wheel_speed_to_cm = 25.0/(6.0*255.0)*3.14*wheel_diameter;
 int base_distance = 13/wheel_speed_to_cm;
@@ -102,16 +102,20 @@ int getSensorReading(){
   if(middle_left_reading && middle_right_reading && !far_left_reading && !far_right_reading){
     return 0;
   } else if(middle_left_reading && !middle_right_reading && !far_left_reading && !far_right_reading){
-    return 50;
+    return 40;
   } else if(middle_left_reading && far_left_reading && !middle_right_reading && !far_right_reading){
     return 100;
   } else if(far_left_reading && !middle_left_reading && !middle_right_reading && !far_right_reading){
     return 200;
+  } else if(far_left_reading && middle_right_reading && middle_left_reading && !far_right_reading){
+    return 200;
   } else if(middle_right_reading && !middle_left_reading && !far_left_reading && !far_right_reading){
-    return -50;
+    return -40;
   } else if(middle_right_reading && far_right_reading && !middle_left_reading && !far_left_reading){
     return -100;
   } else if(far_right_reading && !middle_right_reading && !middle_left_reading && !far_left_reading){
+    return -200;
+  } else if(far_right_reading && middle_right_reading && middle_left_reading && !far_left_reading){
     return -200;
   }
   return current_error;
@@ -134,13 +138,15 @@ int getWheelSpeedHeading(float heading){
   float omega = heading/180.0;
   int Vr = ((2.0 * normal_speed) + (omega * base_distance))/2.0;
   int Vl = (2.0 * normal_speed) - Vr;
-  if(Vl > normal_speed || Vr > normal_speed){
-    if(Vl > Vr){
-      Vl = Vl/Vl * normal_speed;
-      Vr = Vr/Vl * normal_speed;
-    } else {
-      Vl = Vl/Vr * normal_speed;
-      Vr = Vr/Vr * normal_speed;
+  if(heading > 70 || heading  < -70){
+    if(Vl > normal_speed || Vr > normal_speed){
+      if(Vl > Vr){
+        Vl = Vl/Vl * normal_speed;
+        Vr = Vr/Vl * normal_speed;
+      } else {
+        Vl = Vl/Vr * normal_speed;
+        Vr = Vr/Vr * normal_speed;
+      }
     }
   }
   if(Vl < 0){
