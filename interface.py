@@ -4,7 +4,7 @@ import serial
 
 arduinoPort = "COM4"
 baudRate = 9600
-serialPort = serial.Serial(arduinoPort, baudRate, timeout=1)
+#serialPort = serial.Serial(arduinoPort, baudRate, timeout=1)
 
 # current speed variable
 current_speed = 0
@@ -28,7 +28,7 @@ lbl = Label(root, text = "Current Speed: " + str(current_speed), font=("Arial", 
 lbl.grid(row=0, column=1)
 
 def sendMessage(x):
-    serialPort.write(bytes(str(x), 'utf-8'))
+    #serialPort.write(bytes(str(x), 'utf-8'))
     print("SENT " + str(x))
     return 0
 
